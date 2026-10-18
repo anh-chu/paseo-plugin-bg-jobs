@@ -1,6 +1,6 @@
 Background jobs shows the shell commands a Claude Code agent started in the background, and lets you follow and stop them.
 
-When an agent runs a Bash command with `run_in_background`, the command returns at once and the timeline only shows "Ran". This plugin adds a pill to the composer, for example "2 bg jobs", while that agent has running jobs. The pill opens a panel beside the agent with one card per job:
+When an agent runs a Bash command with `run_in_background`, the command returns at once and the timeline only shows "Ran". This plugin adds a pill to the composer, for example "2 bg jobs", while that agent has running jobs. The pill opens a panel in the Explorer sidebar, with one card per job. You can also open the panel as a tab beside the agent. Each card shows:
 
 - the command, its task ID, and how long it has run
 - its status: running, stopping, completed, failed, stopped, or ended

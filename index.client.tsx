@@ -11,6 +11,7 @@ export default function contribute(client: PluginClientContext) {
     title: "Background jobs",
     icon: "SquareTerminal",
     context: "agent",
+    locations: ["explorer", "workspace"],
     Component: JobsPanel,
   });
   client.addCommandCenterItem({
@@ -20,7 +21,7 @@ export default function contribute(client: PluginClientContext) {
     keywords: ["background", "jobs", "shell", "bash", "tasks"],
     context: "agent",
     onSelect({ openPanel }) {
-      openPanel(PANEL_ID);
+      openPanel(PANEL_ID, { location: "explorer" });
     },
   });
 
@@ -59,7 +60,7 @@ export default function contribute(client: PluginClientContext) {
           behavior: {
             kind: "action",
             onPress() {
-              client.openPanel(PANEL_ID, { workspaceId, agentId });
+              client.openPanel(PANEL_ID, { workspaceId, agentId, location: "explorer" });
             },
           },
         },
