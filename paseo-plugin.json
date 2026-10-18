@@ -1,0 +1,9 @@
+{
+  "id": "bg-jobs",
+  "name": "Background jobs",
+  "description": "See the background shell commands a Claude Code agent started, follow their output live, and stop them.",
+  "media": [],
+  "requirements": {
+    "paseo": ">=0.11.2"
+  }
+}
