@@ -11,7 +11,8 @@
     "client/",
     "server/",
     "shared/",
-    "assets/"
+    "assets/",
+    "!server/*.test.ts"
   ],
   "scripts": {
     "typecheck": "tsc --noEmit",
