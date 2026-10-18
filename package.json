@@ -1,6 +1,5 @@
 {
   "name": "paseo-plugin-bg-jobs",
-  "private": false,
   "version": "0.1.0",
   "files": [
     "paseo-plugin.json",
@@ -11,7 +10,8 @@
     "index.server.ts",
     "client/",
     "server/",
-    "shared/"
+    "shared/",
+    "assets/"
   ],
   "scripts": {
     "typecheck": "tsc --noEmit",
@@ -37,5 +37,11 @@
     "background",
     "shell",
     "claude-code"
-  ]
+  ],
+  "homepage": "https://github.com/anh-chu/paseo-plugin-bg-jobs#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anh-chu/paseo-plugin-bg-jobs.git"
+  },
+  "bugs": "https://github.com/anh-chu/paseo-plugin-bg-jobs/issues"
 }

@@ -1,4 +1,7 @@
-import { open, stat } from "node:fs/promises";
+import { constants } from "node:fs";
+import { open, realpath } from "node:fs/promises";
+import { tmpdir } from "node:os";
+import { join, sep } from "node:path";
 import type { PluginHandlerContext } from "@getpaseo/plugin/server";
 import type { Job } from "../shared/contract";
 import { scanTimeline, type TimelineEntry } from "./scan";
@@ -53,12 +56,27 @@ export function runningCounts(): Record<string, number> {
   return counts;
 }
 
+// The output path comes from timeline text, so only Claude Code's own task output files are read.
+async function claudeTaskFile(file: string): Promise<string | null> {
+  const name = `claude-${process.getuid?.() ?? ""}`;
+  const bases = [process.env.CLAUDE_CODE_TMPDIR, tmpdir(), "/tmp"].filter((b): b is string => !!b);
+  const target = await realpath(file);
+  if (!target.endsWith(".output") || !target.includes(`${sep}tasks${sep}`)) return null;
+  for (const base of bases) {
+    const root = await realpath(join(base, name)).catch(() => null);
+    if (root && target.startsWith(root + sep)) return target;
+  }
+  return null;
+}
+
 export async function readTail(file: string): Promise<{ tail: string; bytes: number }> {
   try {
-    const { size } = await stat(file);
-    const length = Math.min(size, TAIL_BYTES);
-    const handle = await open(file, "r");
+    const target = await claudeTaskFile(file);
+    if (!target) return { tail: "", bytes: 0 };
+    const handle = await open(target, constants.O_RDONLY | constants.O_NOFOLLOW);
     try {
+      const { size } = await handle.stat();
+      const length = Math.min(size, TAIL_BYTES);
       const buffer = Buffer.alloc(length);
       await handle.read(buffer, 0, length, size - length);
       let text = buffer.toString("utf8").replace(ANSI, "");
